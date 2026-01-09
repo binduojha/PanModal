@@ -172,10 +172,26 @@ open class PanModalPresentationController: UIPresentationController {
         configureViewLayout()
     }
 
+    // override func containerViewDidLayoutSubviews() {
+    //     super.containerViewDidLayoutSubviews()
+
+    //     guard let containerView,
+    //         let presentedView else { return }
+
+    //     presentedView.frame = containerView.bounds
+    //     presentedView.setNeedsLayout()
+    //     presentedView.layoutIfNeeded()
+    // }
+
+
     override public func presentationTransitionWillBegin() {
 
         guard let containerView = containerView
             else { return }
+
+        if self.panContainerView.frame == .zero {
+            self.adjustPresentedViewFrame()
+        }
 
         layoutBackgroundView(in: containerView)
         layoutPresentedView(in: containerView)
@@ -190,6 +206,8 @@ open class PanModalPresentationController: UIPresentationController {
             self?.backgroundView.dimState = .max
             self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         })
+
+      //  presentedViewController.view.frame = containerView.bounds
     }
 
     override public func presentationTransitionDidEnd(_ completed: Bool) {
